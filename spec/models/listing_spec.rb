@@ -2,33 +2,32 @@ require 'rails_helper'
 
 RSpec.describe Listing, type: :model do
 
-  before(:each) do 
-		@listing = FactoryBot.create(:listing)  	
+  before(:each) do
+		@listing = FactoryBot.create(:listing)
   end
 
   it "has a valid factory" do
-    # vérifie si la factory est valide
+    expect(build(:Listing)).to be_valid
   end
 
   context "validation" do
     it "is valid with valid attributes" do
-      # vérifie si le logement est bien valide
+      expect(@listing).to be_a(Listing)
     end
     describe "#available_beds" do
-      # vérifie que available_beds est bien obligatoire
-      # vérifie que available_beds est bien un integer strictement positif
-
+      it { expect(@listing).to validate_presence_of(:available_beds) }
+      it { expect(@listing.available_beds).to be_a(Integer).and be > 0 }
 		end
     describe "#price" do
-      # vérifie que le prix est bien obligatoire
-      # vérifie que le prix est bien un integer strictement positif
+      it { expect(@listing).to validate_presence_of(:price) }
+      it { expect(@listing.price).to be_a(Integer).and be > 0 }
 		end
     describe "#description" do
-      # vérifie que la description est bien obligatoire
-      # vérifie que la description au bien au moins 140 caractères
+      it { expect(@listing).to validate_presence_of(:description)}
+      it { expect(@listing.description.length).to be > 140 }
 		end
     describe "#welcome_message" do
-      # vérifie que le message de bienvenue est bien obligatoire
+      it { expect(@listing).to validate_presence_of(:welcome_message) }
 		end
 	end
 
@@ -40,7 +39,7 @@ RSpec.describe Listing, type: :model do
 
   context "public instance methods" do
     describe "#overlaping_reservation" do
-      # vérifie que le listing a bien une méthode d'instance nommée overlaping_reservation? 
+      # vérifie que le listing a bien une méthode d'instance nommée overlaping_reservation?
       # vérifie que la méthode marche bien
     end
   end
